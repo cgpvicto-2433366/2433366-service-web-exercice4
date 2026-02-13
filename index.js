@@ -21,7 +21,8 @@ const HOST = process.env.HOST;
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(express.json())
-app.use('/pokemon',router)
+app.use('api/pockemons',router)
+
 
 app.listen(PORT, HOST, () => {
     console.log(`Serveur démarré sur http://${HOST}:${PORT}`);
