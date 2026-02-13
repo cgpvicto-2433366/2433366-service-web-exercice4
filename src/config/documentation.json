@@ -12,7 +12,7 @@
         }
     ],
     "paths": {
-        "/pokemon/{id}": {
+        "api/pokemons/{id}": {
             "get": {
                 "summary": "Recuperer les informations sur un pokemon en fonction de son id",
                 "tags": ["Pokemon"],
