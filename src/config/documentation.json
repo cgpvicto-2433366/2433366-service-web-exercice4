@@ -1,0 +1,106 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "Ben Schalom Exercice4",
+        "version": "1.0.0",
+        "summary":"Exercice 4 service web H26"
+    },
+    "servers":[
+        {
+            "url": "http://localhost:3000/",
+            "description": "Serveur de développement"
+        }
+    ],
+    "paths": {
+        "/pokemon/{id}": {
+            "get": {
+                "summary": "Recuperer les informations sur un pokemon en fonction de son id",
+                "tags": ["Pokemon"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Identifiant du pockemon dans la base de donnée",
+                        "required": true,
+                        "schema":{
+                            "type": "integer",
+                            "format": "int32",
+                            "exemple": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pockémon trouvé avec succès",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "nom": {
+                                            "type": "string",
+                                            "example": "Bulbasaur"
+                                        },
+                                        "type_primaire": {
+                                            "type": "string",
+                                            "example": "Grass"
+                                        },
+                                        "type_secondaire": {
+                                            "type": "string",
+                                            "example": "Poisson"
+                                        },
+                                        "pv":{
+                                            "type": "integer",
+                                            "exemple": 45
+                                        },
+                                        "defense":{
+                                            "type": "integer",
+                                            "exemple": 49
+                                        },
+                                        "attaque":{
+                                            "type": "integer",
+                                            "exemple": 49
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    },
+                    "404": { 
+                        "description": "Pokemon introuvable",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Pokemon introuvable avec l'id 124"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "500": { 
+                        "description": "erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la récupération du pokemon avec l'id 6"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
