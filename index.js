@@ -9,7 +9,7 @@ const PORT = process.env.PORT;
 const HOST = process.env.HOST;
 
 app.use(express.json())
-app.use('/pockemon',router)
+app.use('api/pockemons',router)
 
 app.listen(PORT, HOST, () => {
     console.log(`Serveur démarré sur http://${HOST}:${PORT}`);
