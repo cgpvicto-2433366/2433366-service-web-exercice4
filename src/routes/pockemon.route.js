@@ -3,7 +3,7 @@ import { _getOnePockemon, _getAllPockemon } from '../controllers/pockemon.contro
 
 const router = express.Router()
 
+router.get('/liste', _getAllPockemon)
 router.get('/:id', _getOnePockemon)
-router.get('liste', _getAllPockemon)
 
 export default router

@@ -60,13 +60,13 @@ export const getAllPokemons =  async(offset, limit, type) =>{
 
     if(type ===""){
         requete = `SELECT id, nom, type_primaire, type_secondaire, pv, attaque, defense, 
-                (SELECT COUNT(*) FROM pokemons) AS nombrePokemonTotal
-                FROM pokemons LIMIT ? OFFSET ?`
+                (SELECT COUNT(*) FROM pokemon) AS nombrePokemonTotal
+                FROM pokemon LIMIT ? OFFSET ?`
         params = [limit, offset]
     }else {
         requete = `SELECT id, nom, type_primaire, type_secondaire, pv, attaque, defense, 
-                    (SELECT COUNT(*) FROM pokemons WHERE type_primaire = ?) AS nombrePokemonTotal
-                    FROM pokemons WHERE type_primaire = ? LIMIT ? OFFSET ?`
+                    (SELECT COUNT(*) FROM pokemon WHERE type_primaire = ?) AS nombrePokemonTotal
+                    FROM pokemon WHERE type_primaire = ? LIMIT ? OFFSET ?`
         params = [type, type, limit, offset]
     }
     

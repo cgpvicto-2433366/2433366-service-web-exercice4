@@ -40,7 +40,7 @@ export const _getOnePockemon = async (req, res) =>{
 export const _getAllPockemon = async (req, res) =>{
     let page = req.query.page
     const type = req.query.type || ""
-    const limit =25
+    const limit = 25
 
     //validation du parametre page
     if(page){
@@ -90,10 +90,9 @@ export const _getAllPockemon = async (req, res) =>{
         });
 
     } catch (erreur) {
-        console.log('Erreur : ', erreur);
-        res.status(500)
-        res.send({
-            "erreur":"Echec lors de la récupération du pokemon avec l'id "+ param
+        console.log('Erreur SQL : ', erreur.code, erreur.sqlMessage);
+        res.status(500).json({
+            erreur: "Echec lors de la récupération de la liste des pokemons"
         });
     }
 }
