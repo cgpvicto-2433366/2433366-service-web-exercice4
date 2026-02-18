@@ -62,15 +62,32 @@ export const _getAllPockemon = async (req, res) =>{
 
     try {
         const pokemons = await getAllPokemons(offset, limit, type);
-    
-        resultat = {
-            "pokemons": pokemons[0],
-            "type": type,
-            "nombrePokemonTotal": pokemons[1],
-            "page": page,
-            "totalPage": Math.ceil(pokemons[1] / limit)
+        const liste = pokemons[0];
+        const total = pokemons[1];
+
+        // -----------------------------
+        // CAS : Pokémon non trouvés
+        // -----------------------------
+        if(liste.length == 0){
+            return res.status(404).json({
+                "pokemons": [],
+                "type": type,
+                "nombrePokemonTotal": 0,
+                "page": page,
+                "totalPage": 1
+            })
         }
-        res.json(resultat);
+        
+        // -----------------------------
+        // CAS : Pokémon trouvés
+        // -----------------------------
+        return res.json({
+            pokemons: liste,
+            type: type,
+            nombrePokemonTotal: total,
+            page: page,
+            totalPage: Math.ceil(total / limit)
+        });
 
     } catch (erreur) {
         console.log('Erreur : ', erreur);
