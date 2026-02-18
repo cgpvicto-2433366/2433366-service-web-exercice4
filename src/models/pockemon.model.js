@@ -44,3 +44,38 @@ export const getOnePockemon = async (id) =>{
     }
 }
 
+
+/**
+ * Recuperer la liste total des pockemons en groupe de 25
+ * en fonction ou non d'un type primaire specifique
+ * @param {*} offset 
+ * @param {*} limit 
+ * @param {*} type 
+ * @returns 
+ */
+export const getAllPokemons =  async(offset, limit, type) =>{
+
+    let requete
+    let params
+
+    if(type ===""){
+        requete = `SELECT id, nom, type_primaire, type_secondaire, pv, attaque, defense, 
+                (SELECT COUNT(*) FROM pokemons) AS nombrePokemonTotal
+                FROM pokemons LIMIT ? OFFSET ?`
+        params = [limit, offset]
+    }else {
+        requete = `SELECT id, nom, type_primaire, type_secondaire, pv, attaque, defense, 
+                    (SELECT COUNT(*) FROM pokemons WHERE type_primaire = ?) AS nombrePokemonTotal
+                    FROM pokemons WHERE type_primaire = ? LIMIT ? OFFSET ?`
+        params = [type, type, limit, offset]
+    }
+    
+    try{
+        const [resultat] = await pool.query(requete, params)
+        const total = resultat.length > 0 ? resultat[0].nombrePokemonTotal: 0
+        return [resultat, total]
+    } catch(erreur){
+        console.log(`Erreur, code: ${erreur.code} sqlState ${erreur.sqlState} : ${erreur.sqlMessage}`);
+        throw erreur;
+    }
+}

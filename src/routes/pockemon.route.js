@@ -1,9 +1,9 @@
 import express from 'express'
-import { _getOnePockemon } from '../controllers/pockemon.controller.js'
+import { _getOnePockemon, _getAllPockemon } from '../controllers/pockemon.controller.js'
 
 const router = express.Router()
 
 router.get('/:id', _getOnePockemon)
-router.get('')
+router.get('liste', _getAllPockemon)
 
 export default router
