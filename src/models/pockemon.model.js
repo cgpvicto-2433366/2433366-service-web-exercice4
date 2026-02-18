@@ -79,3 +79,27 @@ export const getAllPokemons =  async(offset, limit, type) =>{
         throw erreur;
     }
 }
+
+
+/**
+ * Ajouter un pockemon dans la base de donne
+ * @param {*} nom 
+ * @param {*} type_primaire 
+ * @param {*} type_secondaire 
+ * @param {*} pv 
+ * @param {*} attaque 
+ * @param {*} defense 
+ * @returns 
+ */
+export const addOnePokemon =  async(nom, type_primaire, type_secondaire, pv, attaque, defense) =>{
+    const requete =  "INSERT INTO pokemon (nom, type_primaire, type_secondaire, pv, attaque, defense) VALUES (?, ?, ?, ?, ?, ?)"
+    const params = [nom, type_primaire, type_secondaire, pv, attaque, defense]
+
+    try{
+        const [resultat] = await pool.execute(requete, params)
+        return resultat
+    }catch(erreur){
+        console.log(`Erreur, code: ${erreur.code} sqlState ${erreur.sqlState} : ${erreur.sqlMessage}`);
+        throw erreur;
+    }
+}
