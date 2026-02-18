@@ -254,6 +254,107 @@
                     }
                 }
             }
+        },
+
+        "api/pokemons/": {
+            "post": {
+                "summary": "Ajouter un pokemon dans la bd",
+                "tags": ["Enregister un pokemon"],
+                "responses": {
+                    "200": {
+                        "description": "Confirmation de creation pokemon ",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "pokemons": {
+                                            "type": "array",
+                                            "items":{
+                                                "type":"integer",
+                                                "properties":{
+                                                    "id":{
+                                                        "type":"integer",
+                                                        "exemple":1
+                                                    },
+                                                    "nom": {
+                                                        "type": "string",
+                                                        "example": "Bulbasaur"
+                                                    },
+                                                    "type_primaire": {
+                                                        "type": "string",
+                                                        "example": "Grass"
+                                                    },
+                                                    "type_secondaire": {
+                                                        "type": "string",
+                                                        "example": "Poisson"
+                                                    },
+                                                    "pv":{
+                                                        "type": "integer",
+                                                        "exemple": 45
+                                                    },
+                                                    "defense":{
+                                                        "type": "integer",
+                                                        "exemple": 49
+                                                    },
+                                                    "attaque":{
+                                                        "type": "integer",
+                                                        "exemple": 49
+                                                    }
+                                                }
+                                            }
+                                        }, 
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Le pokemon [nom] a été ajouté avec succès"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    },
+                    "400": { 
+                        "description": "Il manque des champs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties":{
+                                        "erreur":{
+                                            "type": "string",
+                                            "exemple": "Le format des données est invalide"
+                                        },
+                                        "champs_manquants": {
+                                                "type":"array",
+                                                "exemple": [
+                                                "pv",
+                                                "attaque"
+                                            ]
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "500": { 
+                        "description": "erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la récupération de la liste des pokemons"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         
