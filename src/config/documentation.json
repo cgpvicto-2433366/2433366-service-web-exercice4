@@ -101,6 +101,159 @@
                     }
                 }
             }
+        },
+
+        "api/pokemons/liste": {
+            "get": {
+                "summary": "Recuperer la liste de pokemon en groupe de 25, selon un type ou non",
+                "tags": ["Liste pokemons"],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "Numéro de la page a retourné",
+                        "required": false,
+                        "schema":{
+                            "type": "integer",
+                            "format": "int32",
+                            "exemple": 1
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "type",
+                        "description": "Type de pokémon a retourner",
+                        "required": false,
+                        "schema":{
+                            "type": "string",
+                            "exemple": "Grass"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste de pockemon trouvé",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "pokemons": {
+                                            "type": "array",
+                                            "items":{
+                                                "type":"integer",
+                                                "properties":{
+                                                    "id":{
+                                                        "type":"integer",
+                                                        "exemple":1
+                                                    },
+                                                    "nom": {
+                                                        "type": "string",
+                                                        "example": "Bulbasaur"
+                                                    },
+                                                    "type_primaire": {
+                                                        "type": "string",
+                                                        "example": "Grass"
+                                                    },
+                                                    "type_secondaire": {
+                                                        "type": "string",
+                                                        "example": "Poisson"
+                                                    },
+                                                    "pv":{
+                                                        "type": "integer",
+                                                        "exemple": 45
+                                                    },
+                                                    "defense":{
+                                                        "type": "integer",
+                                                        "exemple": 49
+                                                    },
+                                                    "attaque":{
+                                                        "type": "integer",
+                                                        "exemple": 49
+                                                    }
+                                                }
+                                            }
+                                        }, 
+                                        "type": {
+                                            "type": "string",
+                                            "example": "Poisson"
+                                        },
+                                        "nombrePokemonTotal": {
+                                            "type": "integer",
+                                            "format":"int32",
+                                            "example": 2
+                                        },
+                                        "page": {
+                                            "type": "integer",
+                                            "format":"int32",
+                                            "example": 3
+                                        },
+                                        "totalPage": {
+                                            "type": "integer",
+                                            "format":"int32",
+                                            "example": 3
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    },
+                    "404": { 
+                        "description": "Pokemon introuvable, mauvais type",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties":{
+                                        "pokemons": {
+                                            "type": "array",
+                                            "items":{
+                                                
+                                            }
+                                        }, 
+                                        "type": {
+                                            "type": "string",
+                                            "example": "Poisson"
+                                        },
+                                        "nombrePokemonTotal": {
+                                            "type": "integer",
+                                            "format":"int32",
+                                            "example": 0
+                                        },
+                                        "page": {
+                                            "type": "integer",
+                                            "format":"int32",
+                                            "example": 1
+                                        },
+                                        "totalPage": {
+                                            "type": "integer",
+                                            "format":"int32",
+                                            "example": 1
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    },
+                    "500": { 
+                        "description": "erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": {
+                                            "type": "string",
+                                            "example": "Echec lors de la récupération de la liste des pokemons"
+                                        }
+                                    }
+                                }   
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
