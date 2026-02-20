@@ -260,8 +260,49 @@
             "post": {
                 "summary": "Ajouter un pokemon dans la bd",
                 "tags": ["Enregister un pokemon"],
-                "responses": {
-                    "200": {
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties":{
+                                    "id":{
+                                        "type":"integer",
+                                        "exemple":1
+                                    },
+                                    "nom": {
+                                        "type": "string",
+                                        "example": "Bulbasaur"
+                                    },
+                                    "type_primaire": {
+                                        "type": "string",
+                                        "example": "Grass"
+                                    },
+                                    "type_secondaire": {
+                                        "type": "string",
+                                        "example": "Poisson"
+                                    },
+                                    "pv":{
+                                        "type": "integer",
+                                        "exemple": 45
+                                    },
+                                    "defense":{
+                                        "type": "integer",
+                                        "exemple": 49
+                                    },
+                                    "attaque":{
+                                        "type": "integer",
+                                        "exemple": 49
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                },
+                "reponses":{
+                    "201": {
                         "description": "Confirmation de creation pokemon ",
                         "content":{
                             "application/json":{
@@ -356,7 +397,5 @@
                 }
             }
         }
-
-        
     }
 }

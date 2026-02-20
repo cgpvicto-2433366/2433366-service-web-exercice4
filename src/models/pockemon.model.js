@@ -103,3 +103,37 @@ export const addOnePokemon =  async(nom, type_primaire, type_secondaire, pv, att
         throw erreur;
     }
 }
+
+
+/**
+ * Modifier un pokemon existant
+ */
+export const updateOnePokemon = async (id, nom, type_primaire, type_secondaire, pv, attaque, defense) => {
+    const requete = `UPDATE pokemon 
+                     SET nom = ?, type_primaire = ?, type_secondaire = ?, pv = ?, attaque = ?, defense = ? 
+                     WHERE id = ?`;
+    const params = [nom, type_primaire, type_secondaire, pv, attaque, defense, id];
+
+    try {
+        const [resultat] = await pool.execute(requete, params);
+        return resultat;
+    } catch (erreur) {
+        console.log(`Erreur, code: ${erreur.code} sqlState ${erreur.sqlState} : ${erreur.sqlMessage}`);
+        throw erreur;
+    }
+}
+
+/**
+ * Supprimer un pokemon
+ */
+export const deleteOnePokemon = async (id) => {
+    const requete = "DELETE FROM pokemon WHERE id = ?";
+    
+    try {
+        const [resultat] = await pool.execute(requete, [id]);
+        return resultat;
+    } catch (erreur) {
+        console.log(`Erreur, code: ${erreur.code} sqlState ${erreur.sqlState} : ${erreur.sqlMessage}`);
+        throw erreur;
+    }
+}

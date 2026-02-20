@@ -162,7 +162,7 @@ export const _addOnePokemon = async (req, res) => {
     try {
         const reponse = await addOnePokemon(nom, type_primaire, type_secondaire, pv, attaque, defense);
 
-        res.json({
+        res.status(201).json({
             message: "Le pokemon " + nom + " a été ajouté avec succès",
             pokemon: {
                 id: reponse.insertId,
@@ -179,6 +179,80 @@ export const _addOnePokemon = async (req, res) => {
         console.log("Erreur SQL :", error.code, error.sqlMessage);
         res.status(500).json({
             erreur: "Échec lors de la création du pokemon " + nom
+        });
+    }
+};
+
+
+import { getOnePockemon, updateOnePokemon, deleteOnePokemon } from "../models/pockemon.model.js";
+
+/**
+ * Modifier un pokemon
+ */
+export const _updateOnePokemon = async (req, res) => {
+    const id = req.params.id;
+    const requiredFields = ["nom", "type_primaire", "type_secondaire", "pv", "attaque", "defense"];
+    const donnees = req.body;
+
+    // 1. Vérifier si le format JSON est valide (champs présents)
+    const champsManquants = requiredFields.filter(f => !(f in donnees));
+    if (champsManquants.length > 0) {
+        return res.status(400).json({
+            erreur: "Le format des données est invalide",
+            champs_manquants: champsManquants
+        });
+    }
+
+    try {
+        // 2. Vérifier si le Pokémon existe
+        const pokemonExistant = await getOnePockemon(id);
+        if (!pokemonExistant) {
+            return res.status(404).json({
+                erreur: `Le pokemon id ${id} n'existe pas dans la base de données`
+            });
+        }
+
+        // 3. Exécuter la modification
+        const { nom, type_primaire, type_secondaire, pv, attaque, defense } = donnees;
+        await updateOnePokemon(id, nom, type_primaire, type_secondaire, pv, attaque, defense);
+
+        res.status(200).json({
+            message: `Le pokemon id ${id} a été modifié avec succès`
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            erreur: `Echec lors de la modification du pokemon ${donnees.nom}`
+        });
+    }
+};
+
+/**
+ * Supprimer un pokemon
+ */
+export const _deleteOnePokemon = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        // 1. Vérifier si le Pokémon existe (et récupérer son nom pour le message d'erreur SQL au cas où)
+        const pokemon = await getOnePockemon(id);
+        if (!pokemon) {
+            return res.status(404).json({
+                erreur: `Le pokemon id ${id} n'existe pas dans la base de données`
+            });
+        }
+
+        // 2. Supprimer
+        await deleteOnePokemon(id);
+
+        res.status(200).json({
+            message: `Le pokemon id ${id} a été supprimé avec succès`
+        });
+
+    } catch (error) {
+        // Ici on utilise le nom récupéré avant la suppression pour le message
+        res.status(500).json({
+            erreur: `Echec lors de la suppression du pokemon`
         });
     }
 };
