@@ -1,4 +1,4 @@
-import { getOnePockemon, getAllPokemons, addOnePokemon } from "../models/pockemon.model.js";
+import { getOnePockemon, getAllPokemons, addOnePokemon, updateOnePokemon, deleteOnePokemon } from "../models/pockemon.model.js";
 
 export const _getOnePockemon = async (req, res) =>{
     const param = req.params.id;
@@ -183,8 +183,6 @@ export const _addOnePokemon = async (req, res) => {
     }
 };
 
-
-import { getOnePockemon, updateOnePokemon, deleteOnePokemon } from "../models/pockemon.model.js";
 
 /**
  * Modifier un pokemon

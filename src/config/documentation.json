@@ -7,12 +7,12 @@
     },
     "servers":[
         {
-            "url": "http://localhost:3000/",
+            "url": "http://localhost:3000/api/pokemons",
             "description": "Serveur de développement"
         }
     ],
     "paths": {
-        "api/pokemons/{id}": {
+        "/{id}": {
             "get": {
                 "summary": "Recuperer les informations sur un pokemon en fonction de son id",
                 "tags": ["Pokemon"],
@@ -255,7 +255,7 @@
             }
         },
 
-        "api/pokemons/liste": {
+        "/liste": {
             "get": {
                 "summary": "Recuperer la liste de pokemon en groupe de 25, selon un type ou non",
                 "tags": ["Liste pokemons"],
@@ -408,141 +408,84 @@
             }
         },
 
-        "api/pokemons/": {
+        "/": {
             "post": {
                 "summary": "Ajouter un pokemon dans la bd",
                 "tags": ["Enregister un pokemon"],
                 "requestBody": {
                     "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties":{
-                                    "id":{
-                                        "type":"integer",
-                                        "exemple":1
-                                    },
-                                    "nom": {
-                                        "type": "string",
-                                        "example": "Bulbasaur"
-                                    },
-                                    "type_primaire": {
-                                        "type": "string",
-                                        "example": "Grass"
-                                    },
-                                    "type_secondaire": {
-                                        "type": "string",
-                                        "example": "Poisson"
-                                    },
-                                    "pv":{
-                                        "type": "integer",
-                                        "exemple": 45
-                                    },
-                                    "defense":{
-                                        "type": "integer",
-                                        "exemple": 49
-                                    },
-                                    "attaque":{
-                                        "type": "integer",
-                                        "exemple": 49
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                },
-                "reponses":{
-                    "201": {
-                        "description": "Confirmation de creation pokemon ",
-                        "content":{
-                            "application/json":{
-                                "schema":{
-                                    "type": "object",
-                                    "properties":{
-                                        "pokemons": {
-                                            "type": "array",
-                                            "items":{
-                                                "type":"integer",
-                                                "properties":{
-                                                    "id":{
-                                                        "type":"integer",
-                                                        "exemple":1
-                                                    },
-                                                    "nom": {
-                                                        "type": "string",
-                                                        "example": "Bulbasaur"
-                                                    },
-                                                    "type_primaire": {
-                                                        "type": "string",
-                                                        "example": "Grass"
-                                                    },
-                                                    "type_secondaire": {
-                                                        "type": "string",
-                                                        "example": "Poisson"
-                                                    },
-                                                    "pv":{
-                                                        "type": "integer",
-                                                        "exemple": 45
-                                                    },
-                                                    "defense":{
-                                                        "type": "integer",
-                                                        "exemple": 49
-                                                    },
-                                                    "attaque":{
-                                                        "type": "integer",
-                                                        "exemple": 49
-                                                    }
-                                                }
-                                            }
-                                        }, 
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Le pokemon [nom] a été ajouté avec succès"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                    },
-                    "400": { 
-                        "description": "Il manque des champs",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties":{
-                                        "erreur":{
-                                            "type": "string",
-                                            "exemple": "Le format des données est invalide"
-                                        },
-                                        "champs_manquants": {
-                                                "type":"array",
-                                                "exemple": [
-                                                "pv",
-                                                "attaque"
-                                            ]
-                                        }
-                                    }
-                                }   
-                            }
-                        }
-                    },
-                    "500": { 
-                        "description": "erreur serveur",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "object",
                                     "properties": {
-                                        "erreur": {
+                                        "id": { "type": "integer", "example": 1 },
+                                        "nom": { "type": "string", "example": "Bulbasaur" },
+                                        "type_primaire": { "type": "string", "example": "Grass" },
+                                        "type_secondaire": { "type": "string", "example": "Poison" },
+                                        "pv": { "type": "integer", "example": 45 },
+                                        "defense": { "type": "integer", "example": 49 },
+                                        "attaque": { "type": "integer", "example": 49 }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "responses": { 
+                    "201": {
+                        "description": "Confirmation de creation pokemon",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                "type": "object",
+                                    "properties": {
+                                        "pokemons": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                "id": { "type": "integer", "example": 1 },
+                                                "nom": { "type": "string", "example": "Bulbasaur" }
+                                                }
+                                            }
+                                        },
+                                        "message": {
                                             "type": "string",
-                                            "example": "Echec lors de la récupération de la liste des pokemons"
+                                            "example": "Le pokemon Bulbasaur a été ajouté avec succès"
                                         }
                                     }
-                                }   
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Il manque des champs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                "type": "object",
+                                    "properties": {
+                                        "erreur": { "type": "string", "example": "Le format des données est invalide" },
+                                        "champs_manquants": {
+                                            "type": "array",
+                                            "items": { "type": "string" },
+                                            "example": ["pv", "attaque"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "erreur serveur",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                "type": "object",
+                                    "properties": {
+                                        "erreur": { "type": "string", "example": "Echec lors de la création" }
+                                    }
+                                }
                             }
                         }
                     }
