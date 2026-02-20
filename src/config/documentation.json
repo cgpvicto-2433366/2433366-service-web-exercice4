@@ -100,6 +100,158 @@
                         }
                     }
                 }
+            },
+            "put": {
+                "summary": "Modifier un pokemon existant en fonction de son id",
+                "tags": ["Pokemon"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Identifiant du pokemon à modifier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "nom": { "type": "string", "example": "Bulbasaur" },
+                                    "type_primaire": { "type": "string", "example": "Grass" },
+                                    "type_secondaire": { "type": "string", "example": "Poison" },
+                                    "pv": { "type": "integer", "example": 45 },
+                                    "attaque": { "type": "integer", "example": 49 },
+                                    "defense": { "type": "integer", "example": 49 }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Modification réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": { "type": "string", "example": "Le pokemon id 1 a été modifié avec succès" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Format de données invalide",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": { "type": "string", "example": "Le format des données est invalide" },
+                                        "champs_manquants": {
+                                            "type": "array",
+                                            "items": { "type": "string" },
+                                            "example": ["pv", "attaque"]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Pokemon inexistant",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": { "type": "string", "example": "Le pokemon id 1 n'existe pas dans la base de données" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur lors de la modification",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": { "type": "string", "example": "Echec lors de la modification du pokemon Bulbasaur" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Supprimer un pokemon de la base de données",
+                "tags": ["Pokemon"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Identifiant du pokemon à supprimer",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Suppression réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": { "type": "string", "example": "Le pokemon id 1 a été supprimé avec succès" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Id non trouvé",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": { "type": "string", "example": "Le pokemon id 1 n'existe pas dans la base de données" }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erreur serveur lors de la suppression",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "erreur": { "type": "string", "example": "Echec lors de la suppression du pokemon Bulbasaur" }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
 
